@@ -1,0 +1,220 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-12 01:50:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "bot_section",
+  "bot_name",
+  "bot_token",
+  "is_active",
+  "column_break_1",
+  "webhook_url",
+  "webhook_secret",
+  "last_webhook_setup",
+  "configuration_section",
+  "default_team",
+  "default_priority",
+  "column_break_2",
+  "auto_acknowledge",
+  "enable_status_commands",
+  "rate_limit_per_hour",
+  "messages_section",
+  "welcome_message",
+  "statistics_section",
+  "total_messages_received",
+  "total_tickets_created",
+  "column_break_3",
+  "last_message_received",
+  "created_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "bot_section",
+   "fieldtype": "Section Break",
+   "label": "Bot Configuration"
+  },
+  {
+   "fieldname": "bot_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Bot Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "bot_token",
+   "fieldtype": "Password",
+   "label": "Bot Token",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "webhook_url",
+   "fieldtype": "Data",
+   "label": "Webhook URL",
+   "read_only": 1
+  },
+  {
+   "fieldname": "webhook_secret",
+   "fieldtype": "Password",
+   "label": "Webhook Secret",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_webhook_setup",
+   "fieldtype": "Datetime",
+   "label": "Last Webhook Setup",
+   "read_only": 1
+  },
+  {
+   "fieldname": "configuration_section",
+   "fieldtype": "Section Break",
+   "label": "Default Settings"
+  },
+  {
+   "fieldname": "default_team",
+   "fieldtype": "Link",
+   "label": "Default Team",
+   "options": "HD Team"
+  },
+  {
+   "fieldname": "default_priority",
+   "fieldtype": "Link",
+   "label": "Default Priority",
+   "options": "HD Ticket Priority"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "auto_acknowledge",
+   "fieldtype": "Check",
+   "label": "Auto Acknowledge Tickets"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_status_commands",
+   "fieldtype": "Check",
+   "label": "Enable Status Commands"
+  },
+  {
+   "default": "10",
+   "fieldname": "rate_limit_per_hour",
+   "fieldtype": "Int",
+   "label": "Rate Limit (messages/hour)",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "messages_section",
+   "fieldtype": "Section Break",
+   "label": "Messages"
+  },
+  {
+   "default": "Welcome! Send me a message to create a support ticket. Type /help for available commands.",
+   "fieldname": "welcome_message",
+   "fieldtype": "Text",
+   "label": "Welcome Message"
+  },
+  {
+   "fieldname": "statistics_section",
+   "fieldtype": "Section Break",
+   "label": "Statistics"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_messages_received",
+   "fieldtype": "Int",
+   "label": "Total Messages Received",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_tickets_created",
+   "fieldtype": "Int",
+   "label": "Total Tickets Created",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_message_received",
+   "fieldtype": "Datetime",
+   "label": "Last Message Received",
+   "read_only": 1
+  },
+  {
+   "fieldname": "created_on",
+   "fieldtype": "Datetime",
+   "label": "Created On",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-12-12 01:50:00.000000",
+ "modified_by": "Administrator",
+ "module": "Helpdesk",
+ "name": "HD Telegram Bot",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Agent Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "bot_name",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "bot_name",
+ "track_changes": 1
+} 

@@ -1,0 +1,277 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-12 01:54:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "message_section",
+  "message_id",
+  "telegram_user",
+  "telegram_bot",
+  "message_type",
+  "column_break_1",
+  "message_date",
+  "is_forwarded",
+  "forward_from",
+  "reply_to_message_id",
+  "content_section",
+  "text_content",
+  "caption",
+  "column_break_2",
+  "media_type",
+  "file_id",
+  "file_path",
+  "file_size",
+  "linking_section",
+  "linked_ticket",
+  "created_ticket",
+  "communication_id",
+  "column_break_3",
+  "is_processed",
+  "processing_status",
+  "error_message",
+  "metadata_section",
+  "raw_message_data",
+  "column_break_4",
+  "processed_on",
+  "received_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "message_section",
+   "fieldtype": "Section Break",
+   "label": "Message Information"
+  },
+  {
+   "fieldname": "message_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Message ID",
+   "reqd": 1
+  },
+  {
+   "fieldname": "telegram_user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Telegram User",
+   "options": "HD Telegram User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "telegram_bot",
+   "fieldtype": "Link",
+   "label": "Telegram Bot",
+   "options": "HD Telegram Bot",
+   "reqd": 1
+  },
+  {
+   "fieldname": "message_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Message Type",
+   "options": "text\nphoto\nvideo\naudio\ndocument\nvoice\nvideo_note\nsticker\nlocation\ncontact\npoll\nvenue\ngame\ninvoice\nsuccessful_payment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "message_date",
+   "fieldtype": "Datetime",
+   "label": "Message Date",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_forwarded",
+   "fieldtype": "Check",
+   "label": "Is Forwarded"
+  },
+  {
+   "fieldname": "forward_from",
+   "fieldtype": "Data",
+   "label": "Forwarded From"
+  },
+  {
+   "fieldname": "reply_to_message_id",
+   "fieldtype": "Data",
+   "label": "Reply to Message ID"
+  },
+  {
+   "fieldname": "content_section",
+   "fieldtype": "Section Break",
+   "label": "Content"
+  },
+  {
+   "fieldname": "text_content",
+   "fieldtype": "Long Text",
+   "label": "Text Content"
+  },
+  {
+   "fieldname": "caption",
+   "fieldtype": "Text",
+   "label": "Caption"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "media_type",
+   "fieldtype": "Select",
+   "label": "Media Type",
+   "options": "\nimage\nvideo\naudio\ndocument\nvoice\nsticker"
+  },
+  {
+   "fieldname": "file_id",
+   "fieldtype": "Data",
+   "label": "File ID"
+  },
+  {
+   "fieldname": "file_path",
+   "fieldtype": "Data",
+   "label": "File Path"
+  },
+  {
+   "fieldname": "file_size",
+   "fieldtype": "Int",
+   "label": "File Size (bytes)"
+  },
+  {
+   "fieldname": "linking_section",
+   "fieldtype": "Section Break",
+   "label": "Ticket Linking"
+  },
+  {
+   "fieldname": "linked_ticket",
+   "fieldtype": "Link",
+   "label": "Linked Ticket",
+   "options": "HD Ticket"
+  },
+  {
+   "default": "0",
+   "fieldname": "created_ticket",
+   "fieldtype": "Check",
+   "label": "Created New Ticket"
+  },
+  {
+   "fieldname": "communication_id",
+   "fieldtype": "Link",
+   "label": "Communication ID",
+   "options": "Communication"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_processed",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Processed"
+  },
+  {
+   "fieldname": "processing_status",
+   "fieldtype": "Select",
+   "label": "Processing Status",
+   "options": "Pending\nProcessing\nCompleted\nFailed\nSkipped"
+  },
+  {
+   "fieldname": "error_message",
+   "fieldtype": "Text",
+   "label": "Error Message"
+  },
+  {
+   "fieldname": "metadata_section",
+   "fieldtype": "Section Break",
+   "label": "Metadata"
+  },
+  {
+   "fieldname": "raw_message_data",
+   "fieldtype": "JSON",
+   "label": "Raw Message Data"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "processed_on",
+   "fieldtype": "Datetime",
+   "label": "Processed On"
+  },
+  {
+   "fieldname": "received_on",
+   "fieldtype": "Datetime",
+   "label": "Received On",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-12-12 01:54:00.000000",
+ "modified_by": "Administrator",
+ "module": "Helpdesk",
+ "name": "HD Telegram Message",
+ "naming_rule": "Expression",
+ "naming_rule_expression": "TG-.message_id.-.###",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Agent Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Agent",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "message_id,telegram_user,linked_ticket",
+ "sort_field": "received_on",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "message_id",
+ "track_changes": 1
+} 

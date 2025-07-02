@@ -1,0 +1,265 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-12 01:52:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "user_section",
+  "telegram_user_id",
+  "username",
+  "first_name",
+  "last_name",
+  "column_break_1",
+  "language_code",
+  "is_bot",
+  "is_premium",
+  "contact_section",
+  "phone_number",
+  "email",
+  "column_break_2",
+  "customer",
+  "linked_user",
+  "settings_section",
+  "is_blocked",
+  "preferred_language",
+  "timezone",
+  "column_break_3",
+  "notifications_enabled",
+  "auto_create_tickets",
+  "statistics_section",
+  "total_messages_sent",
+  "total_tickets_created",
+  "column_break_4",
+  "first_contact",
+  "last_contact",
+  "last_message_id"
+ ],
+ "fields": [
+  {
+   "fieldname": "user_section",
+   "fieldtype": "Section Break",
+   "label": "User Information"
+  },
+  {
+   "fieldname": "telegram_user_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Telegram User ID",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "label": "Username"
+  },
+  {
+   "fieldname": "first_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "First Name"
+  },
+  {
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "label": "Last Name"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "language_code",
+   "fieldtype": "Data",
+   "label": "Language Code"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_bot",
+   "fieldtype": "Check",
+   "label": "Is Bot",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_premium",
+   "fieldtype": "Check",
+   "label": "Is Premium User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contact_section",
+   "fieldtype": "Section Break",
+   "label": "Contact Information"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Linked Customer",
+   "options": "HD Customer"
+  },
+  {
+   "fieldname": "linked_user",
+   "fieldtype": "Link",
+   "label": "Linked User",
+   "options": "User"
+  },
+  {
+   "fieldname": "settings_section",
+   "fieldtype": "Section Break",
+   "label": "Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_blocked",
+   "fieldtype": "Check",
+   "label": "Is Blocked"
+  },
+  {
+   "fieldname": "preferred_language",
+   "fieldtype": "Select",
+   "label": "Preferred Language",
+   "options": "en\nes\nfr\nde\nit\npt\nru\nzh\nja\nko\nar"
+  },
+  {
+   "fieldname": "timezone",
+   "fieldtype": "Data",
+   "label": "Timezone"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "notifications_enabled",
+   "fieldtype": "Check",
+   "label": "Notifications Enabled"
+  },
+  {
+   "default": "1",
+   "fieldname": "auto_create_tickets",
+   "fieldtype": "Check",
+   "label": "Auto Create Tickets"
+  },
+  {
+   "fieldname": "statistics_section",
+   "fieldtype": "Section Break",
+   "label": "Statistics"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_messages_sent",
+   "fieldtype": "Int",
+   "label": "Total Messages Sent",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_tickets_created",
+   "fieldtype": "Int",
+   "label": "Total Tickets Created",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "first_contact",
+   "fieldtype": "Datetime",
+   "label": "First Contact",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_contact",
+   "fieldtype": "Datetime",
+   "label": "Last Contact",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_message_id",
+   "fieldtype": "Data",
+   "label": "Last Message ID",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-12-12 01:52:00.000000",
+ "modified_by": "Administrator",
+ "module": "Helpdesk",
+ "name": "HD Telegram User",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Agent Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Agent",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "telegram_user_id,username,first_name,last_name",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "first_name",
+ "track_changes": 1
+} 

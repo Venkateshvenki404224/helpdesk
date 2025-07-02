@@ -31,6 +31,14 @@ scheduler_events = {
     "daily": [
         "helpdesk.helpdesk.doctype.hd_ticket.hd_ticket.close_tickets_after_n_days"
     ],
+    "cron": {
+        "*/5 * * * *": [
+            "helpdesk.helpdesk.utils.telegram_queue.process_pending_messages"
+        ],
+        "0 */6 * * *": [
+            "helpdesk.helpdesk.utils.telegram_queue.cleanup_old_rate_limits"
+        ]
+    },
 }
 
 
