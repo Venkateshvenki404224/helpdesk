@@ -8,10 +8,10 @@
 | Phase | Progress | Status |
 |-------|----------|---------|
 | **Phase 1: Foundation** | 8/8 tasks | ✅ Complete |
-| **Phase 2: Core Features** | 8/10 tasks | ✅ 80% Complete (2 in progress) |
+| **Phase 2: Core Features** | 8/11 tasks | ✅ 73% Complete (3 pending) |
 | **Phase 3: Enhancement** | 0/8 tasks | ⏳ Not Started |
 | **Phase 4: Polish & Launch** | 0/6 tasks | ⏳ Not Started |
-| **🎯 TOTAL** | **16/32 tasks** | **🔄 50% Complete** |
+| **🎯 TOTAL** | **16/33 tasks** | **🔄 48% Complete** |
 
 ---
 
@@ -301,6 +301,20 @@
 **Dependencies**: All Phase 2 tasks  
 **Notes**: Security measures implemented and validated. Full penetration testing needed in production environment.
 
+#### **Task 2.11: Development Testing Infrastructure** 
+- [ ] **2.11.1** Install and configure ngrok integration
+- [ ] **2.11.2** Create automatic webhook setup with ngrok
+- [ ] **2.11.3** Add "Test Mode" button in HD Telegram Bot form
+- [ ] **2.11.4** Implement ngrok tunnel management (start/stop/status)
+- [ ] **2.11.5** Create testing workflow documentation
+
+**Status**: ⏳ Not Started  
+**Estimated Time**: 1 day  
+**Actual Time**: [To be filled]  
+**Completed Date**: [To be filled]  
+**Dependencies**: Task 1.4 (Webhook Handler), Task 1.1 (HD Telegram Bot)  
+**Notes**: Enables seamless development testing by automatically exposing local webhooks via ngrok with one-click setup
+
 ---
 
 ## 🔄 **4. PHASE 3: Enhancement (Weeks 5-6)**
@@ -372,15 +386,16 @@
 - [ ] **3.5.1** Create bot configuration form in Helpdesk
 - [ ] **3.5.2** Add webhook setup wizard
 - [ ] **3.5.3** Implement bot status monitoring dashboard
-- [ ] **3.5.4** Create bot testing tools
-- [ ] **3.5.5** Test admin interface functionality
+- [ ] **3.5.4** Create bot testing tools with ngrok integration
+- [ ] **3.5.5** Add one-click testing mode with automatic webhook setup
+- [ ] **3.5.6** Test admin interface functionality
 
 **Status**: ⏳ Not Started  
-**Estimated Time**: 1 day  
+**Estimated Time**: 1.5 days  
 **Actual Time**: [To be filled]  
 **Completed Date**: [To be filled]  
 **Dependencies**: Phase 1 completion  
-**Notes**: [Any blockers or issues]
+**Notes**: Enhanced with ngrok auto-testing capability for seamless development workflow
 
 #### **Task 3.6: Analytics Dashboard**
 - [ ] **3.6.1** Create telegram usage analytics
@@ -523,7 +538,7 @@
 
 ---
 
-## 📊 **6. Progress Tracking System**
+## 📊 **7. Progress Tracking System**
 
 ### **How to Update Progress**
 1. **Mark completed tasks** by changing `[ ]` to `[x]`
@@ -541,13 +556,102 @@
 
 ---
 
-## 🚨 **7. Critical Dependencies & Blockers**
+## ⚙️ **6. Technical Specifications**
+
+### **6.1 Ngrok Development Testing Integration (Task 2.11)**
+
+#### **Overview**
+Automated testing infrastructure that enables one-click webhook testing during development by integrating ngrok tunneling directly into the Helpdesk interface.
+
+#### **User Experience Flow**
+1. Developer opens HD Telegram Bot form in Helpdesk
+2. Clicks "Enable Test Mode" button
+3. System automatically:
+   - Installs/updates ngrok if needed
+   - Creates secure HTTP tunnel to local development server
+   - Updates Telegram webhook URL to ngrok tunnel
+   - Configures webhook with proper authentication
+   - Shows "Testing Active" status with tunnel URL
+
+#### **Technical Implementation**
+
+**Frontend (HD Telegram Bot Form)**
+```javascript
+// Add Test Mode section to bot form
+{
+    "fieldtype": "Section Break",
+    "label": "Development Testing"
+},
+{
+    "fieldname": "test_mode_enabled",
+    "fieldtype": "Check",
+    "label": "Enable Test Mode",
+    "description": "Automatically setup ngrok tunnel for testing"
+},
+{
+    "fieldname": "ngrok_tunnel_url",
+    "fieldtype": "Data",
+    "label": "Current Tunnel URL",
+    "read_only": 1
+},
+{
+    "fieldname": "start_testing",
+    "fieldtype": "Button",
+    "label": "Start Testing"
+},
+{
+    "fieldname": "stop_testing", 
+    "fieldtype": "Button",
+    "label": "Stop Testing"
+}
+```
+
+**Backend (Python Implementation)**
+```python
+# helpdesk/helpdesk/utils/ngrok_manager.py
+class NgrokTestingManager:
+    def start_testing_session(self, bot_name: str) -> Dict[str, Any]
+    def stop_testing_session(self, bot_name: str) -> Dict[str, Any]
+    def get_tunnel_status(self, bot_name: str) -> Dict[str, Any]
+    def install_ngrok_if_needed(self) -> bool
+    def update_telegram_webhook(self, bot_token: str, tunnel_url: str) -> bool
+```
+
+#### **Configuration Requirements**
+- ngrok binary installation (auto-handled)
+- Development server running on standard port (8000/8004)
+- Internet connectivity for tunnel creation
+- Valid Telegram bot token
+
+#### **Security Considerations**
+- Tunnel URLs are temporary and session-specific
+- Authentication tokens remain unchanged
+- Webhook secret validation still enforced
+- Testing mode clearly indicated in UI
+
+#### **Error Handling**
+- Network connectivity issues
+- ngrok installation failures  
+- Telegram webhook update failures
+- Port conflicts or server unavailability
+
+#### **Benefits**
+- ✅ **Zero Configuration**: One-click testing setup
+- ✅ **Development Speed**: Instant webhook testing without manual ngrok setup
+- ✅ **Team Collaboration**: Consistent testing workflow across developers
+- ✅ **Production Safety**: Clear separation between test and production webhooks
+- ✅ **Debugging**: Easy tunnel URL sharing for troubleshooting
+
+---
+
+## 🚨 **8. Critical Dependencies & Blockers**
 
 ### **External Dependencies**
 - [ ] **Telegram Bot Token** - Obtained from @BotFather
 - [ ] **SSL Certificate** - Required for webhook HTTPS
 - [ ] **Domain Configuration** - Webhook URL setup
 - [ ] **Redis Server** - For caching and rate limiting
+- [ ] **ngrok** - For development testing (auto-installed via Task 2.11)
 
 ### **Internal Dependencies**
 - [ ] **Frappe Framework** - Version compatibility check
@@ -557,7 +661,7 @@
 
 ---
 
-## 📞 **8. Contact & Responsibility Matrix**
+## 📞 **9. Contact & Responsibility Matrix**
 
 | Role | Responsibility | Contact |
 |------|---------------|---------|
@@ -594,6 +698,7 @@
 - All bot commands functional
 - Ticket confirmations working
 - End-to-end testing passed
+- Development testing infrastructure operational (ngrok integration)
 
 ### **Phase 3 Success**
 - Status notifications functional
