@@ -38,22 +38,43 @@ class TelegramCommandHandler:
         self.commands = self._register_commands()
     
     def _get_handler_settings(self) -> Dict[str, Any]:
-        """Get command handler settings from system configuration."""
+        """Get command handler settings from active bot configuration."""
         try:
-            settings = frappe.get_single('HD Telegram Bot')
-            return {
-                'default_language': getattr(settings, 'default_language', 'en'),
-                'support_languages': getattr(settings, 'support_languages', 'en,es,fr').split(','),
-                'welcome_message': getattr(settings, 'welcome_message', ''),
-                'help_message': getattr(settings, 'help_message', ''),
-                'company_name': getattr(settings, 'company_name', 'Helpdesk'),
-                'support_hours': getattr(settings, 'support_hours', '24/7'),
-                'response_time': getattr(settings, 'response_time', '2-4 hours'),
-                'enable_user_states': getattr(settings, 'enable_user_states', 1),
-                'max_tickets_per_page': getattr(settings, 'max_tickets_per_page', 5),
-            }
+            # Get the active bot settings
+            bot = frappe.db.get_value(
+                'HD Telegram Bot', 
+                {'is_active': 1}, 
+                ['company_name', 'welcome_message'], 
+                as_dict=True
+            )
+            
+            if bot:
+                return {
+                    'default_language': 'en',
+                    'support_languages': ['en', 'es', 'fr'],
+                    'welcome_message': bot.get('welcome_message', ''),
+                    'help_message': '',
+                    'company_name': bot.get('company_name') or 'Helpdesk',
+                    'support_hours': '24/7',
+                    'response_time': '2-4 hours',
+                    'enable_user_states': True,
+                    'max_tickets_per_page': 5,
+                }
+            else:
+                # Fallback if no active bot
+                return {
+                    'default_language': 'en',
+                    'support_languages': ['en'],
+                    'welcome_message': '',
+                    'help_message': '',
+                    'company_name': 'Helpdesk',
+                    'support_hours': '24/7',
+                    'response_time': '2-4 hours',
+                    'enable_user_states': True,
+                    'max_tickets_per_page': 5,
+                }
         except Exception:
-            # Default settings if no bot configured
+            # Default settings if error
             return {
                 'default_language': 'en',
                 'support_languages': ['en'],
@@ -154,7 +175,7 @@ class TelegramCommandHandler:
     
     def _get_user_context(self, telegram_user_data: Dict[str, Any]) -> Dict[str, Any]:
         """Get user context including language, state, and preferences."""
-        telegram_user_id = telegram_user_data.get('id')
+        telegram_user_id = str(telegram_user_data.get('id', ''))
         
         try:
             # Try to get existing user record
@@ -502,6 +523,14 @@ class TelegramCommandHandler:
         else:
             # Default help message
             base_message = self._get_text('general_help', language)
+        
+        # Replace placeholders in the help message
+        company_name = self.settings.get('company_name', 'Helpdesk')
+        base_message = base_message.format(
+            company_name=company_name,
+            support_hours=self.settings.get('support_hours', '24/7'),
+            response_time=self.settings.get('response_time', '2-4 hours')
+        )
         
         # Add state-specific help
         if current_state == 'verification_pending':

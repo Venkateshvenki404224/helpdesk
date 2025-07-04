@@ -88,9 +88,9 @@ class TelegramMessageParser:
         """
         try:
             parsed = {
-                'message_id': message_data.get('message_id'),
-                'chat_id': message_data.get('chat', {}).get('id'),
-                'user_id': message_data.get('from', {}).get('id'),
+                'message_id': str(message_data.get('message_id', '')),
+                'chat_id': str(message_data.get('chat', {}).get('id', '')),
+                'user_id': str(message_data.get('from', {}).get('id', '')),
                 'date': message_data.get('date'),
                 'message_type': self._determine_message_type(message_data),
                 'text_content': None,
@@ -140,9 +140,9 @@ class TelegramMessageParser:
             return {
                 'is_valid': False,
                 'validation_errors': [f"Parsing failed: {str(e)}"],
-                'message_id': message_data.get('message_id'),
-                'chat_id': message_data.get('chat', {}).get('id'),
-                'user_id': message_data.get('from', {}).get('id'),
+                'message_id': str(message_data.get('message_id', '')),
+                'chat_id': str(message_data.get('chat', {}).get('id', '')),
+                'user_id': str(message_data.get('from', {}).get('id', '')),
             }
     
     def _determine_message_type(self, message_data: Dict[str, Any]) -> str:

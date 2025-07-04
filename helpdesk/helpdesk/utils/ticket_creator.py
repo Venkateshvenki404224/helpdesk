@@ -541,7 +541,7 @@ class TelegramTicketCreator:
             message = self._prepare_confirmation_message(ticket, telegram_user_name)
             
             # Send message
-            bot_client.send_message(chat_id, message)
+            bot_client.send_message(str(chat_id), message)
             
         except Exception as e:
             frappe.log_error(f"Error sending ticket confirmation: {str(e)}")

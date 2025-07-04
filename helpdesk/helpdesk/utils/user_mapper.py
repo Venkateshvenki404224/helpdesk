@@ -70,7 +70,7 @@ class TelegramUserMapper:
             Dict containing resolution result with customer and contact info
         """
         try:
-            telegram_user_id = telegram_user_data.get('id')
+            telegram_user_id = str(telegram_user_data.get('id', ''))
             if not telegram_user_id:
                 return self._create_error_result("No Telegram user ID provided")
             

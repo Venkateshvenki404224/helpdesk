@@ -6,6 +6,7 @@ import requests
 import json
 from frappe import _
 from frappe.utils import cstr, get_url
+from helpdesk.helpdesk.utils.json_utils import safe_serialize_response
 
 
 class TelegramBotClient:
@@ -20,7 +21,7 @@ class TelegramBotClient:
         try:
             url = f"{self.base_url}/sendMessage"
             payload = {
-                "chat_id": chat_id,
+                "chat_id": str(chat_id),
                 "text": text,
                 "parse_mode": parse_mode
             }
@@ -46,7 +47,7 @@ class TelegramBotClient:
         try:
             url = f"{self.base_url}/sendPhoto"
             payload = {
-                "chat_id": chat_id,
+                "chat_id": str(chat_id),
                 "photo": photo
             }
             
@@ -74,7 +75,7 @@ class TelegramBotClient:
         try:
             url = f"{self.base_url}/sendDocument"
             payload = {
-                "chat_id": chat_id,
+                "chat_id": str(chat_id),
                 "document": document
             }
             
@@ -181,7 +182,7 @@ class TelegramBotClient:
         try:
             url = f"{self.base_url}/sendChatAction"
             payload = {
-                "chat_id": chat_id,
+                "chat_id": str(chat_id),
                 "action": action
             }
             
@@ -366,7 +367,7 @@ def test_bot_connectivity(bot_name):
         
         if result.get("success"):
             bot_info = result.get("data", {}).get("result", {})
-            return {
+            return safe_serialize_response({
                 "success": True,
                 "message": "Bot connectivity test successful",
                 "bot_info": {
@@ -377,21 +378,21 @@ def test_bot_connectivity(bot_name):
                     "can_read_all_group_messages": bot_info.get("can_read_all_group_messages"),
                     "supports_inline_queries": bot_info.get("supports_inline_queries")
                 }
-            }
+            })
         else:
-            return {
+            return safe_serialize_response({
                 "success": False,
                 "message": "Bot connectivity test failed",
                 "error": result.get("error")
-            }
+            })
     
     except Exception as e:
         frappe.log_error("Bot Connectivity Test Error", str(e))
-        return {
+        return safe_serialize_response({
             "success": False,
             "message": "Test failed",
             "error": str(e)
-        }
+        })
 
 
 # Background job functions

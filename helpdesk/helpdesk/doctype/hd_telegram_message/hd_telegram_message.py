@@ -6,6 +6,8 @@ import json
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils import now_datetime, cstr, get_datetime
+from datetime import datetime
+from helpdesk.helpdesk.utils.json_utils import safe_serialize_response
 
 
 class HDTelegramMessage(Document):
@@ -283,6 +285,9 @@ def create_telegram_message(message_data, bot_name):
         # Determine message type and content
         message_type, text_content, media_info = parse_message_content(message)
         
+        # Convert large integers to strings before storing raw data
+        safe_message_data = safe_serialize_response(message_data)
+        
         # Create message document
         message_doc = frappe.get_doc({
             "doctype": "HD Telegram Message",
@@ -299,7 +304,7 @@ def create_telegram_message(message_data, bot_name):
             "is_forwarded": bool(message.get("forward_from")),
             "forward_from": message.get("forward_from", {}).get("first_name"),
             "reply_to_message_id": cstr(message.get("reply_to_message", {}).get("message_id", "")),
-            "raw_message_data": json.dumps(message_data),
+            "raw_message_data": json.dumps(safe_message_data),
             "processing_status": "Pending"
         })
         
