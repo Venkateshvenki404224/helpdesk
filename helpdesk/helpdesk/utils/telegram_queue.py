@@ -3,14 +3,14 @@
 
 import frappe
 from frappe import _
-from frappe.utils import now_datetime, add_minutes, get_datetime
+from frappe.utils import now_datetime, add_to_date, get_datetime
 
 
 def process_pending_messages():
     """Cron job to process pending Telegram messages"""
     try:
         # Get pending messages (not processed for more than 5 minutes)
-        five_minutes_ago = add_minutes(now_datetime(), -5)
+        five_minutes_ago = add_to_date(now_datetime(), minutes=-5)
         
         pending_messages = frappe.get_all(
             "HD Telegram Message",
@@ -110,7 +110,7 @@ def get_message_failure_count(message_name):
             "Error Log",
             filters={
                 "title": ["like", f"%{message_name}%"],
-                "creation": [">=", add_minutes(now_datetime(), -60)]  # Last hour
+                "creation": [">=", add_to_date(now_datetime(), minutes=-60)]  # Last hour
             }
         )
         return failure_count
@@ -122,7 +122,7 @@ def get_message_failure_count(message_name):
 def reprocess_failed_messages(hours=24):
     """Manually reprocess failed messages from the last N hours"""
     try:
-        hours_ago = add_minutes(now_datetime(), -int(hours) * 60)
+        hours_ago = add_to_date(now_datetime(), hours=-int(hours))
         
         failed_messages = frappe.get_all(
             "HD Telegram Message",
@@ -185,7 +185,7 @@ def get_queue_status():
             "HD Telegram Message",
             filters={
                 "processing_status": "Failed",
-                "received_on": [">=", add_minutes(now_datetime(), -60)]  # Last hour
+                "received_on": [">=", add_to_date(now_datetime(), minutes=-60)]  # Last hour
             }
         )
         
@@ -202,7 +202,7 @@ def get_queue_status():
             "HD Telegram Message",
             filters={
                 "processing_status": "Failed",
-                "received_on": [">=", add_minutes(now_datetime(), -30)]  # Last 30 minutes
+                "received_on": [">=", add_to_date(now_datetime(), minutes=-30)]  # Last 30 minutes
             },
             fields=["name", "error_message", "received_on", "telegram_user"],
             order_by="received_on desc",
@@ -230,7 +230,7 @@ def retry_stuck_messages():
     """Retry messages that are stuck in 'Processing' status"""
     try:
         # Find messages stuck in processing for more than 10 minutes
-        ten_minutes_ago = add_minutes(now_datetime(), -10)
+        ten_minutes_ago = add_to_date(now_datetime(), minutes=-10)
         
         stuck_messages = frappe.get_all(
             "HD Telegram Message",

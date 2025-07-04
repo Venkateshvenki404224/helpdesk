@@ -1,0 +1,253 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-04 17:35:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "command_section",
+  "command_name",
+  "display_name",
+  "description",
+  "column_break_1",
+  "command_type",
+  "category",
+  "icon",
+  "function_section",
+  "function_path",
+  "parameters_schema",
+  "column_break_2",
+  "response_templates",
+  "keyboard_layout",
+  "permissions_section",
+  "permissions",
+  "is_global",
+  "column_break_3",
+  "is_active",
+  "sort_order",
+  "access_level",
+  "settings_section",
+  "timeout",
+  "rate_limit",
+  "column_break_4",
+  "success_message",
+  "error_message",
+  "help_text"
+ ],
+ "fields": [
+  {
+   "fieldname": "command_section",
+   "fieldtype": "Section Break",
+   "label": "Command Information"
+  },
+  {
+   "fieldname": "command_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Command Name",
+   "reqd": 1,
+   "unique": 1,
+   "description": "Command with prefix, e.g., /start, /help"
+  },
+  {
+   "fieldname": "display_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Display Name",
+   "reqd": 1,
+   "description": "User-friendly name for the command"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description",
+   "reqd": 1,
+   "description": "What this command does"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "command_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Command Type",
+   "options": "Built-in\nCustom\nAPI\nWebhook\nInteractive",
+   "reqd": 1,
+   "default": "Built-in"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "label": "Category",
+   "options": "General\nSupport\nTicketing\nAccount\nAdmin\nUtility",
+   "reqd": 1,
+   "default": "General"
+  },
+  {
+   "fieldname": "icon",
+   "fieldtype": "Data",
+   "label": "Icon",
+   "description": "Emoji or icon for display, e.g., 🚀, 📋"
+  },
+  {
+   "fieldname": "function_section",
+   "fieldtype": "Section Break",
+   "label": "Function Configuration"
+  },
+  {
+   "fieldname": "function_path",
+   "fieldtype": "Data",
+   "label": "Function Path",
+   "reqd": 1,
+   "description": "Python path to function, e.g., helpdesk.api.telegram.commands.handle_start"
+  },
+  {
+   "fieldname": "parameters_schema",
+   "fieldtype": "JSON",
+   "label": "Parameters Schema",
+   "description": "JSON schema for parameter validation"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "response_templates",
+   "fieldtype": "JSON",
+   "label": "Response Templates",
+   "description": "JSON object with success, error, and help response templates"
+  },
+  {
+   "fieldname": "keyboard_layout",
+   "fieldtype": "JSON",
+   "label": "Keyboard Layout",
+   "description": "JSON configuration for inline keyboard buttons"
+  },
+  {
+   "fieldname": "permissions_section",
+   "fieldtype": "Section Break",
+   "label": "Permissions & Access"
+  },
+  {
+   "fieldname": "permissions",
+   "fieldtype": "Text",
+   "label": "Permissions",
+   "description": "Comma-separated list of roles that can use this command"
+  },
+  {
+   "fieldname": "is_global",
+   "fieldtype": "Check",
+   "label": "Is Global",
+   "default": 1,
+   "description": "Available to all bots by default"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active",
+   "default": 1,
+   "description": "Enable/disable this command"
+  },
+  {
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "Sort Order",
+   "default": 10,
+   "description": "Display order in help command"
+  },
+  {
+   "fieldname": "access_level",
+   "fieldtype": "Select",
+   "label": "Access Level",
+   "options": "Public\nVerified\nRegistered\nAdmin",
+   "default": "Public",
+   "description": "Minimum access level required"
+  },
+  {
+   "fieldname": "settings_section",
+   "fieldtype": "Section Break",
+   "label": "Command Settings"
+  },
+  {
+   "fieldname": "timeout",
+   "fieldtype": "Int",
+   "label": "Timeout (seconds)",
+   "default": 30,
+   "description": "Function execution timeout"
+  },
+  {
+   "fieldname": "rate_limit",
+   "fieldtype": "Int",
+   "label": "Rate Limit (per minute)",
+   "default": 10,
+   "description": "Maximum uses per minute per user"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "success_message",
+   "fieldtype": "Small Text",
+   "label": "Success Message",
+   "description": "Default success message template"
+  },
+  {
+   "fieldname": "error_message",
+   "fieldtype": "Small Text",
+   "label": "Error Message",
+   "description": "Default error message template"
+  },
+  {
+   "fieldname": "help_text",
+   "fieldtype": "Small Text",
+   "label": "Help Text",
+   "description": "Help text shown in /help command"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-04 17:35:00.000000",
+ "modified_by": "Administrator",
+ "module": "Helpdesk",
+ "name": "HD Telegram Command",
+ "naming_rule": "By fieldname",
+ "naming_rule_fieldname": "command_name",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Helpdesk Agent",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "sort_order",
+ "sort_order": "ASC",
+ "states": []
+} 

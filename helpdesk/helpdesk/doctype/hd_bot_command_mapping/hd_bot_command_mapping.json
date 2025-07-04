@@ -1,0 +1,83 @@
+{
+ "actions": [],
+ "creation": "2024-07-04 18:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "command",
+  "is_active",
+  "column_break_1",
+  "custom_response_override",
+  "sort_order",
+  "column_break_2",
+  "access_level",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "command",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Command",
+   "options": "HD Telegram Command",
+   "reqd": 1,
+   "description": "Select command to enable for this bot"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Active",
+   "description": "Enable/disable this command for this bot"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "custom_response_override",
+   "fieldtype": "Link",
+   "label": "Custom Response Template",
+   "options": "HD Bot Response Template",
+   "description": "Override default command response with custom template"
+  },
+  {
+   "default": "10",
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "Sort Order",
+   "description": "Display order in help command"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "access_level",
+   "fieldtype": "Select",
+   "label": "Access Level Override",
+   "options": "\nPublic\nVerified\nRegistered\nAdmin",
+   "description": "Override command's default access level for this bot"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes",
+   "description": "Additional notes about this command mapping"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-04 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Helpdesk",
+ "name": "HD Bot Command Mapping",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "sort_order",
+ "sort_order": "ASC",
+ "states": []
+} 

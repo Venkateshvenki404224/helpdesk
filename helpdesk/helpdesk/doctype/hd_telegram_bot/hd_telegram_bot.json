@@ -22,8 +22,27 @@
   "auto_acknowledge",
   "enable_status_commands",
   "rate_limit_per_hour",
-  "messages_section",
-  "welcome_message",
+  "templates_section",
+  "welcome_template",
+  "help_template",
+  "error_template",
+  "column_break_templates",
+  "use_default_templates",
+  "template_language",
+  "bot_personality",
+  "commands_section",
+  "command_mappings",
+  "column_break_commands",
+  "enable_global_commands",
+  "default_access_level",
+  "advanced_settings_section",
+  "auto_create_users",
+  "enable_conversation_tracking",
+  "conversation_timeout",
+  "column_break_advanced",
+  "enable_file_uploads",
+  "max_file_size",
+  "allowed_file_types",
   "testing_section",
   "test_mode_enabled",
   "ngrok_tunnel_url",
@@ -137,15 +156,139 @@
    "non_negative": 1
   },
   {
-   "fieldname": "messages_section",
+   "fieldname": "templates_section",
    "fieldtype": "Section Break",
-   "label": "Messages"
+   "label": "Response Templates",
+   "description": "Configure message templates for different bot responses"
   },
   {
-   "default": "Welcome! Send me a message to create a support ticket. Type /help for available commands.",
-   "fieldname": "welcome_message",
-   "fieldtype": "Text",
-   "label": "Welcome Message"
+   "fieldname": "welcome_template",
+   "fieldtype": "Link",
+   "label": "Welcome Template",
+   "options": "HD Bot Response Template",
+   "description": "Template for first-time user greetings"
+  },
+  {
+   "fieldname": "help_template",
+   "fieldtype": "Link",
+   "label": "Help Template",
+   "options": "HD Bot Response Template",
+   "description": "Template for help command responses"
+  },
+  {
+   "fieldname": "error_template",
+   "fieldtype": "Link",
+   "label": "Error Template",
+   "options": "HD Bot Response Template",
+   "description": "Template for error messages"
+  },
+  {
+   "fieldname": "column_break_templates",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "use_default_templates",
+   "fieldtype": "Check",
+   "label": "Use Default Templates",
+   "description": "Fall back to system defaults if custom templates are not set"
+  },
+  {
+   "default": "en",
+   "fieldname": "template_language",
+   "fieldtype": "Select",
+   "label": "Template Language",
+   "options": "en\nes\nfr\nde\nit\npt\nru\nzh\nja\nko\nar\nhi",
+   "description": "Default language for bot responses"
+  },
+  {
+   "fieldname": "bot_personality",
+   "fieldtype": "Small Text",
+   "label": "Bot Personality",
+   "description": "Define bot's personality and tone for dynamic responses"
+  },
+  {
+   "fieldname": "commands_section",
+   "fieldtype": "Section Break",
+   "label": "Command Configuration",
+   "description": "Configure which commands are available for this bot"
+  },
+  {
+   "fieldname": "command_mappings",
+   "fieldtype": "Table",
+   "label": "Command Mappings",
+   "options": "HD Bot Command Mapping",
+   "description": "Map commands to this bot with custom settings"
+  },
+  {
+   "fieldname": "column_break_commands",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_global_commands",
+   "fieldtype": "Check",
+   "label": "Enable Global Commands",
+   "description": "Include all global commands in addition to custom mappings"
+  },
+  {
+   "default": "Public",
+   "fieldname": "default_access_level",
+   "fieldtype": "Select",
+   "label": "Default Access Level",
+   "options": "Public\nVerified\nRegistered\nAdmin",
+   "description": "Default access level for bot users"
+  },
+  {
+   "fieldname": "advanced_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Advanced Settings"
+  },
+  {
+   "default": "1",
+   "fieldname": "auto_create_users",
+   "fieldtype": "Check",
+   "label": "Auto Create Users",
+   "description": "Automatically create user records for new Telegram users"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_conversation_tracking",
+   "fieldtype": "Check",
+   "label": "Enable Conversation Tracking",
+   "description": "Track conversation context and state"
+  },
+  {
+   "default": "1800",
+   "fieldname": "conversation_timeout",
+   "fieldtype": "Int",
+   "label": "Conversation Timeout (seconds)",
+   "description": "How long to keep conversation context active"
+  },
+  {
+   "fieldname": "column_break_advanced",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_file_uploads",
+   "fieldtype": "Check",
+   "label": "Enable File Uploads",
+   "description": "Allow users to send files and attachments"
+  },
+  {
+   "default": "10",
+   "fieldname": "max_file_size",
+   "fieldtype": "Int",
+   "label": "Max File Size (MB)",
+   "description": "Maximum file size allowed for uploads"
+  },
+  {
+   "default": "jpg,jpeg,png,gif,pdf,doc,docx,txt",
+   "fieldname": "allowed_file_types",
+   "fieldtype": "Data",
+   "label": "Allowed File Types",
+   "description": "Comma-separated list of allowed file extensions"
   },
   {
    "fieldname": "testing_section",

@@ -1,0 +1,152 @@
+[
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "welcome_message",
+        "template_name": "welcome_message",
+        "template_category": "Welcome",
+        "language": "en",
+        "title": "Welcome Message",
+        "content": "🎉 Welcome to our support bot!\n\nI'm here to help you with your support needs. Here's what I can do for you:\n\n🆘 *Available Commands:*\n/help - Show all available commands\n/ticket - Create a new support ticket\n/status - Check your ticket status\n/cancel - Cancel current operation\n\n💡 *Quick Tips:*\n• Use /help to see detailed command information\n• Type /ticket to get started with creating a support request\n• All your conversations are secure and confidential\n\nReady to get started? Type /help to see all available options! 🚀",
+        "description": "Default welcome message for new users",
+        "is_active": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "help_message",
+        "template_name": "help_message",
+        "template_category": "Help",
+        "language": "en",
+        "title": "Help Message",
+        "content": "🤖 *Support Bot - Available Commands*\n\n🆘 *Support Commands:*\n/ticket - Create a new support ticket\n/status - Check your ticket status\n\nℹ️ *Information Commands:*\n/help - Show this help message\n/start - Show welcome message\n\n⚙️ *Utility Commands:*\n/cancel - Cancel current operation\n\n💬 *How to Use:*\n• Simply type any command to get started\n• Follow the prompts for detailed guidance\n• Use /cancel anytime to stop current operation\n\nNeed immediate help? Type /ticket to create a support request! 📝",
+        "description": "Comprehensive help message with all commands",
+        "is_active": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "error_unknown_command",
+        "template_name": "error_unknown_command",
+        "template_category": "Error",
+        "language": "en",
+        "title": "Unknown Command Error",
+        "content": "❌ *Unknown Command*\n\nSorry, I don't understand that command.\n\n🆘 *Available Commands:*\n/help - Show all available commands\n/ticket - Create a new support ticket\n/status - Check your ticket status\n/start - Show welcome message\n\nType /help to see all available options! 🤖",
+        "description": "Error message for unknown commands",
+        "is_active": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "error_permission_denied",
+        "template_name": "error_permission_denied",
+        "template_category": "Error",
+        "language": "en",
+        "title": "Permission Denied Error",
+        "content": "\ud83d\udeab *Access Denied*\n\nYou don't have permission to use this command.\n\nIf you believe this is an error, please contact support for assistance.\n\nUse /help to see available commands for your access level.",
+        "variables": "",
+        "description": "Error message for permission denied",
+        "is_active": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "error_general",
+        "template_name": "error_general",
+        "template_category": "Error",
+        "language": "en",
+        "title": "General Error",
+        "content": "⚠️ *Something went wrong*\n\nI encountered an error while processing your request.\n\nPlease try again in a few moments. If the problem persists, please contact support.\n\nUse /help to see available commands.",
+        "description": "General error message for system errors",
+        "is_active": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "ticket_creation_start",
+        "template_name": "ticket_creation_start",
+        "template_category": "Ticket",
+        "language": "en",
+        "title": "Ticket Creation Start",
+        "content": "📝 *Create Support Ticket*\n\nLet's create a support ticket for you. Please provide the following information:\n\n**Step 1: Subject**\nPlease enter a brief subject for your ticket:\n\n💡 *Examples:*\n• \"Login issue with account\"\n• \"Payment not processed\"\n• \"Feature request: Dark mode\"\n\nType your subject below:",
+        "description": "Message to start ticket creation process",
+        "is_active": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "ticket_creation_success",
+        "template_name": "ticket_creation_success",
+        "template_category": "Ticket",
+        "language": "en",
+        "title": "Ticket Created Successfully",
+        "content": "\u2705 *Ticket Created Successfully!*\n\n**Ticket Details:**\n\ud83d\udccb **ID:** {ticket_id}\n\ud83d\udcdd **Subject:** {subject}\n\ud83d\udcc5 **Created:** {created_date}\n\ud83c\udfaf **Priority:** {priority}\n\ud83d\udcca **Status:** {status}\n\n**What's Next?**\n\u2022 Our support team will review your ticket shortly\n\u2022 You'll receive updates on ticket progress\n\u2022 Use /status to check your ticket status anytime\n\n**Need to add more details?**\nReply to this message with additional information, and it will be added to your ticket.\n\nThank you for contacting support! \ud83d\ude4f",
+        "variables": "[{\"name\": \"ticket_id\", \"type\": \"String\", \"description\": \"Unique ticket identifier\"}, {\"name\": \"subject\", \"type\": \"String\", \"description\": \"Ticket subject line\"}, {\"name\": \"created_date\", \"type\": \"String\", \"description\": \"Date ticket was created\"}, {\"name\": \"priority\", \"type\": \"String\", \"description\": \"Ticket priority level\"}, {\"name\": \"status\", \"type\": \"String\", \"description\": \"Current ticket status\"}]",
+        "description": "Success message after ticket creation",
+        "is_active": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "status_no_tickets",
+        "template_name": "status_no_tickets",
+        "template_category": "Command Response",
+        "language": "en",
+        "title": "No Tickets Found",
+        "content": "📋 *Ticket Status*\n\nYou don't have any support tickets yet.\n\nTo create a new ticket, use the /ticket command.\n\nNeed help? Type /help to see all available commands! 🤖",
+        "description": "Message when user has no tickets",
+        "is_active": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "status_ticket_list",
+        "template_name": "status_ticket_list",
+        "template_category": "Command Response",
+        "language": "en",
+        "title": "Ticket Status List",
+        "content": "\ud83d\udccb *Your Support Tickets*\n\n{ticket_list}\n\n**Legend:**\n\ud83d\udfe2 Open \u2022 \ud83d\udfe1 In Progress \u2022 \ud83d\udd34 Waiting \u2022 \u2705 Closed\n\nUse /ticket to create a new support request! \ud83d\udcdd",
+        "variables": "[{\"name\": \"ticket_list\", \"type\": \"String\", \"description\": \"Formatted list of user tickets\"}]",
+        "description": "Message showing user's ticket list",
+        "is_active": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "cancel_success",
+        "template_name": "cancel_success",
+        "template_category": "Command Response",
+        "language": "en",
+        "title": "Operation Cancelled",
+        "content": "\u274c *Operation Cancelled*\n\nYour current operation has been cancelled.\n\nYou can start fresh with any of these commands:\n\u2022 /ticket - Create a new support ticket\n\u2022 /status - Check your ticket status\n\u2022 /help - Show all available commands\n\nHow can I help you today? \ud83e\udd16",
+        "variables": "",
+        "description": "Success message after cancelling operation",
+        "is_active": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "cancel_nothing",
+        "template_name": "cancel_nothing",
+        "template_category": "Command Response",
+        "language": "en",
+        "title": "Nothing to Cancel",
+        "content": "\u2139\ufe0f *Nothing to Cancel*\n\nYou don't have any active operations to cancel.\n\nReady to start something new?\n\u2022 /ticket - Create a new support ticket\n\u2022 /status - Check your ticket status\n\u2022 /help - Show all available commands\n\nWhat would you like to do? \ud83e\udd16",
+        "variables": "",
+        "description": "Message when there's nothing to cancel",
+        "is_active": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "typing_indicator",
+        "template_name": "typing_indicator",
+        "template_category": "Notification",
+        "language": "en",
+        "title": "Typing Indicator",
+        "content": "\ud83d\udcad Processing...",
+        "variables": "",
+        "description": "Typing indicator message",
+        "is_active": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "maintenance_mode",
+        "template_name": "maintenance_mode",
+        "template_category": "Notification",
+        "language": "en",
+        "title": "Maintenance Mode",
+        "content": "\ud83d\udd27 *Maintenance Mode*\n\nThe bot is currently undergoing maintenance.\n\nPlease try again in a few minutes. Thank you for your patience! \ud83d\ude4f",
+        "variables": "",
+        "description": "Message shown during maintenance",
+        "is_active": 1
+    }
+] 

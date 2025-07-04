@@ -24,6 +24,14 @@
   "file_id",
   "file_path",
   "file_size",
+  "conversation_section",
+  "conversation_group_id",
+  "conversation_state",
+  "conversation_category",
+  "column_break_conv",
+  "is_conversation_starter",
+  "awaiting_response",
+  "conversation_context",
   "linking_section",
   "linked_ticket",
   "created_ticket",
@@ -140,6 +148,55 @@
    "fieldname": "file_size",
    "fieldtype": "Int",
    "label": "File Size (bytes)"
+  },
+  {
+   "fieldname": "conversation_section",
+   "fieldtype": "Section Break",
+   "label": "Conversation Flow"
+  },
+  {
+   "fieldname": "conversation_group_id",
+   "fieldtype": "Data",
+   "label": "Conversation Group ID",
+   "description": "Groups related messages for the same issue/category"
+  },
+  {
+   "fieldname": "conversation_state",
+   "fieldtype": "Select",
+   "label": "Conversation State",
+   "options": "idle\nwaiting_for_problem\nwaiting_for_details\nwaiting_for_priority\ncollecting_info\nready_for_ticket\nticket_created",
+   "default": "idle"
+  },
+  {
+   "fieldname": "conversation_category",
+   "fieldtype": "Select",
+   "label": "Issue Category",
+   "options": "\nTechnical Support\nBilling\nAccount Issues\nFeature Request\nGeneral Inquiry\nBug Report\nOther",
+   "description": "Allows multiple parallel conversations per user"
+  },
+  {
+   "fieldname": "column_break_conv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_conversation_starter",
+   "fieldtype": "Check",
+   "label": "Conversation Starter",
+   "description": "First message in a conversation flow"
+  },
+  {
+   "default": "0",
+   "fieldname": "awaiting_response",
+   "fieldtype": "Check",
+   "label": "Awaiting User Response",
+   "description": "Bot is waiting for user input"
+  },
+  {
+   "fieldname": "conversation_context",
+   "fieldtype": "JSON",
+   "label": "Conversation Context",
+   "description": "Stores conversation state data and collected information"
   },
   {
    "fieldname": "linking_section",
@@ -268,7 +325,7 @@
    "write": 1
   }
  ],
- "search_fields": "message_id,telegram_user,linked_ticket",
+ "search_fields": "message_id,telegram_user,linked_ticket,conversation_group_id,conversation_category",
  "sort_field": "received_on",
  "sort_order": "DESC",
  "states": [],

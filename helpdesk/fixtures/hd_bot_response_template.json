@@ -1,0 +1,35 @@
+[
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "welcome_message",
+        "template_name": "welcome_message",
+        "template_category": "Welcome",
+        "language": "en",
+        "content": "🎉 Welcome to our support bot!\n\nI'm here to help you with your support needs. Type /help to see available commands.",
+        "description": "Default welcome message for new users",
+        "is_active": 1,
+        "is_global": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "help_message",
+        "template_name": "help_message",
+        "template_category": "Help",
+        "language": "en",
+        "content": "🤖 *Available Commands:*\n\n/ticket - Create a new support ticket\n/status - Check your ticket status\n/help - Show this help message\n/start - Show welcome message\n/cancel - Cancel current operation\n\nType any command to get started!",
+        "description": "Help message with available commands",
+        "is_active": 1,
+        "is_global": 1
+    },
+    {
+        "doctype": "HD Bot Response Template",
+        "name": "error_unknown_command",
+        "template_name": "error_unknown_command",
+        "template_category": "Error",
+        "language": "en",
+        "content": "❌ Unknown command. Type /help to see available commands.",
+        "description": "Error message for unknown commands",
+        "is_active": 1,
+        "is_global": 1
+    }
+] 

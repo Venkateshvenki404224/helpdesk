@@ -67,7 +67,7 @@ def handle_webhook():
             return {"message": "OK"}
     
     except Exception as e:
-        logger.error(f"Webhook handler exception: {str(e)}", exc_info=True)
+        logger.error(f"Webhook handler exception: {str(e)}")
         frappe.log_error("Webhook Handler Error", str(e))
         frappe.response.status_code = 200  # Always return 200 to Telegram
         return {"message": "OK"}
@@ -113,7 +113,7 @@ def validate_webhook_request(data, headers):
         }
     
     except Exception as e:
-        logger.error(f"Webhook validation exception: {str(e)}", exc_info=True)
+        logger.error(f"Webhook validation exception: {str(e)}")
         frappe.log_error("Webhook Validation Error", str(e))
         return {"success": False, "message": "Validation error"}
 
@@ -161,13 +161,13 @@ def process_telegram_update(update_data, bot_doc):
             return {"success": True, "message": "Update type not handled"}
     
     except Exception as e:
-        logger.error(f"Update processing exception: {str(e)}", exc_info=True)
+        logger.error(f"Update processing exception: {str(e)}")
         frappe.log_error("Update Processing Error", str(e))
         return {"success": False, "message": str(e)}
 
 
 def process_message(update_data, bot_doc):
-    """Process incoming message"""
+    """Process incoming message using new command processing system"""
     try:
         message = update_data.get("message", {})
         user_data = message.get("from", {})
@@ -175,62 +175,123 @@ def process_message(update_data, bot_doc):
         user_id = user_data.get("id")
         chat_id = message.get("chat", {}).get("id")
         
-        logger.info(f"Processing message from user {user_id} in chat {chat_id}")
+        logger.info(f"🔄 Processing message from user {user_id} in chat {chat_id}")
         logger.debug(f"Message text: '{message_text[:100]}{'...' if len(message_text) > 100 else ''}'")
         
         # Update bot statistics
         logger.debug("Updating bot message count...")
         bot_doc.increment_message_count()
         
-        # Handle bot commands first
-        if message_text.startswith("/"):
-            logger.info(f"Detected bot command: {message_text.split()[0]}")
-            return handle_bot_command(message, bot_doc)
-        
-        logger.info("Processing regular message for ticket creation...")
-        
-        # Process regular message as potential ticket
-        from helpdesk.helpdesk.utils.ticket_creator import create_ticket_from_telegram_message
-        
-        # Pass just the message data for ticket creation
-        logger.debug("Calling ticket creator...")
-        result = create_ticket_from_telegram_message(message)
-        
-        logger.info(f"Ticket creation result: {result.get('success')}")
-        
-        if result.get("success"):
-            ticket_id = result.get("ticket")
-            logger.info(f"✅ Ticket {ticket_id} created successfully")
+        # Use new Command Processing System
+        logger.info("🚀 Using new Command Processing System...")
+        try:
+            from helpdesk.helpdesk.utils.telegram_command_processor import TelegramCommandProcessor
+            from helpdesk.helpdesk.utils.bot_response_manager import BotResponseManager
             
-            # Send confirmation if enabled
-            if bot_doc.auto_acknowledge:
-                logger.debug("Sending ticket confirmation...")
-                send_ticket_confirmation(message, result, bot_doc)
-            else:
-                logger.debug("Auto-acknowledge disabled, skipping confirmation")
-        else:
-            # Handle errors
-            error_type = result.get("error", "unknown")
-            error_message = result.get("message", "Unknown error")
-            logger.warning(f"❌ Ticket creation failed: {error_type} - {error_message}")
+            logger.debug("✅ Command processing utilities imported successfully")
             
-            if error_type == "verification_required":
-                logger.info("Sending verification message...")
-                send_verification_message(message, bot_doc)
-            elif error_type == "blocked_user":
-                logger.info("User is blocked, not sending any response")
-                # Don't send anything to blocked users
-                pass
+            # Initialize processors
+            command_processor = TelegramCommandProcessor(bot_doc)
+            response_manager = BotResponseManager(bot_doc)
+            
+            # Process message through command processor
+            logger.debug(f"Processing message through command processor...")
+            result = command_processor.process_message(message, user_data)
+            logger.debug(f"Command processor returned: {result}")
+            
+            # Handle the result
+            if result.get("success"):
+                # Get response from response manager
+                response_data = result.get("response_data", {})
+                template_name = response_data.get("template_name")
+                context = response_data.get("context", {})
+                
+                if template_name:
+                    logger.debug(f"Rendering template: {template_name}")
+                    response_message = response_manager.render_template(template_name, context)
+                    
+                    if response_message:
+                        logger.debug(f"📤 Sending response: '{response_message[:100]}{'...' if len(response_message) > 100 else ''}'")
+                        send_message(chat_id, response_message, bot_doc, parse_mode="Markdown")
+                else:
+                    # Direct response message
+                    response_message = result.get("response_message")
+                    if response_message:
+                        logger.debug(f"\U0001F4E4 Sending direct response: '{response_message[:100]}{'...' if len(response_message) > 100 else ''}'")
+                        send_message(chat_id, response_message, bot_doc, parse_mode="Markdown")
+                    elif result.get("message"):
+                        logger.debug(f"\U0001F4E4 Sending fallback message: '{result.get('message')[:100]}{'...' if len(result.get('message')) > 100 else ''}'")
+                        send_message(chat_id, result.get("message"), bot_doc, parse_mode="Markdown")
+                
+                # Handle special cases
+                if result.get("ticket_created"):
+                    ticket_id = result.get("ticket_id")
+                    logger.info(f"✅ Ticket {ticket_id} created through command flow")
+                
+                if result.get("welcome_sent"):
+                    logger.info(f"👋 Welcome message sent to new user")
+                    
             else:
-                logger.info("Sending generic error message...")
-                # Send generic error message
-                send_error_message(message, result, bot_doc)
+                # Handle command processing errors
+                error_type = result.get("error", "unknown")
+                error_message = result.get("message", "Unknown error")
+                logger.warning(f"❌ Command processing failed: {error_type} - {error_message}")
+                
+                # Send error response using response manager
+                error_response = response_manager.render_template("error_general", {
+                    "error_message": error_message
+                })
+                
+                if error_response:
+                    send_message(chat_id, error_response, bot_doc, parse_mode="Markdown")
+                else:
+                    # Fallback error message
+                    fallback_message = "❌ Sorry, I couldn't process your message. Please try again or type /help for available commands."
+                    send_message(chat_id, fallback_message, bot_doc)
+            
+        except Exception as e:
+            logger.error(f"❌ Error in command processing system: {str(e)}")
+            
+            # Fallback to legacy system if available
+            logger.info("🔄 Falling back to legacy processing...")
+            try:
+                from helpdesk.helpdesk.utils.interactive_flow_handler import handle_interactive_message
+                result = handle_interactive_message(message, bot_doc)
+                
+                if result.get("success"):
+                    response_message = result.get("response_message")
+                    if response_message:
+                        send_message(chat_id, response_message, bot_doc, parse_mode="Markdown")
+                else:
+                    # Emergency fallback
+                    fallback_message = "Sorry, I'm having trouble processing your message. Please try again or contact support."
+                    send_message(chat_id, fallback_message, bot_doc)
+                
+            except Exception as fallback_error:
+                logger.error(f"❌ Legacy fallback also failed: {str(fallback_error)}")
+                
+                # Final emergency response
+                emergency_message = "Sorry, there was an error processing your message. Please try again later."
+                send_message(chat_id, emergency_message, bot_doc)
+                
+                result = {"success": False, "message": str(e)}
         
         return result
     
     except Exception as e:
-        logger.error(f"Message processing exception: {str(e)}", exc_info=True)
+        logger.error(f"Message processing exception: {str(e)}")
         frappe.log_error("Message Processing Error", str(e))
+        
+        # Emergency fallback
+        try:
+            message = update_data.get("message", {})
+            chat_id = message.get("chat", {}).get("id")
+            if chat_id:
+                emergency_message = "Sorry, there was an error processing your message. Please try again."
+                send_message(chat_id, emergency_message, bot_doc)
+        except:
+            pass  # Don't let secondary errors break the flow
+        
         return {"success": False, "message": str(e)}
 
 
@@ -240,13 +301,43 @@ def process_callback_query(update_data, bot_doc):
         callback_query = update_data.get("callback_query", {})
         callback_data = callback_query.get("data", "")
         
-        # Handle different callback types
-        if callback_data.startswith("status_"):
-            return handle_status_query(callback_query, bot_doc)
-        elif callback_data.startswith("ticket_"):
-            return handle_ticket_query(callback_query, bot_doc)
+        logger.info(f"Processing callback query: {callback_data}")
         
-        return {"success": True, "message": "Callback handled"}
+        # Use command processor for callback queries too
+        try:
+            from helpdesk.helpdesk.utils.telegram_command_processor import TelegramCommandProcessor
+            from helpdesk.helpdesk.utils.bot_response_manager import BotResponseManager
+            
+            command_processor = TelegramCommandProcessor(bot_doc)
+            response_manager = BotResponseManager(bot_doc)
+            
+            # Process callback query
+            result = command_processor.process_callback_query(callback_query)
+            
+            if result.get("success"):
+                # Send response if provided
+                response_data = result.get("response_data", {})
+                template_name = response_data.get("template_name")
+                context = response_data.get("context", {})
+                
+                if template_name:
+                    response_message = response_manager.render_template(template_name, context)
+                    if response_message:
+                        chat_id = callback_query.get("message", {}).get("chat", {}).get("id")
+                        send_message(chat_id, response_message, bot_doc, parse_mode="Markdown")
+                
+                # Answer callback query
+                answer_callback_query(callback_query.get("id"), result.get("callback_answer", ""))
+                
+            return result
+            
+        except Exception as e:
+            logger.error(f"Callback query processing error: {str(e)}")
+            
+            # Answer callback query with error
+            answer_callback_query(callback_query.get("id"), "Error processing request")
+            
+            return {"success": False, "message": str(e)}
     
     except Exception as e:
         frappe.log_error("Callback Query Processing Error", str(e))
@@ -258,101 +349,13 @@ def process_edited_message(update_data, bot_doc):
     try:
         # For now, we'll just log edited messages
         # In the future, we might want to update the original ticket
-        frappe.log_error("Message Edited", json.dumps(update_data))
+        logger.info("Edited message received - logging for future processing")
+        frappe.log_error("Message Edited", json.dumps(update_data, indent=2))
         return {"success": True, "message": "Edit logged"}
     
     except Exception as e:
         frappe.log_error("Edited Message Processing Error", str(e))
         return {"success": False, "message": str(e)}
-
-
-def handle_bot_command(message, bot_doc):
-    """Handle bot commands using the new command handler"""
-    try:
-        # Import command handler
-        from helpdesk.helpdesk.utils.command_handler import handle_telegram_command
-        
-        # Process command using the enhanced handler
-        result = handle_telegram_command(message)
-        
-        if result.get("success"):
-            chat_id = message.get("chat", {}).get("id")
-            response_text = result.get("message", "Command processed successfully.")
-            parse_mode = result.get("parse_mode", None)
-            
-            # Send response
-            send_message(chat_id, response_text, bot_doc, parse_mode=parse_mode)
-            
-            return {"success": True, "message": "Command handled"}
-        else:
-            # Handle command errors
-            chat_id = message.get("chat", {}).get("id")
-            error_message = result.get("message", "Sorry, an error occurred while processing your command.")
-            send_message(chat_id, error_message, bot_doc)
-            
-            return result
-    
-    except Exception as e:
-        frappe.log_error("Command Handler Error", str(e))
-        
-        # Send fallback response
-        chat_id = message.get("chat", {}).get("id")
-        if chat_id:
-            fallback_text = "Sorry, I couldn't process your command. Please try again later."
-            send_message(chat_id, fallback_text, bot_doc)
-        
-        return {"success": False, "message": str(e)}
-
-
-def handle_status_command(message, bot_doc):
-    """Handle /status command to show ticket status"""
-    try:
-        user_data = message.get("from", {})
-        chat_id = message.get("chat", {}).get("id")
-        telegram_user_id = cstr(user_data.get("id"))
-        
-        # Get user's tickets
-        from helpdesk.helpdesk.doctype.hd_telegram_user.hd_telegram_user import get_user_tickets
-        tickets = get_user_tickets(telegram_user_id)
-        
-        if not tickets:
-            send_message(chat_id, "You don't have any tickets yet.", bot_doc)
-        else:
-            status_text = "Your tickets:\n\n"
-            for ticket in tickets[:5]:  # Show last 5 tickets
-                status_text += f"🎫 {ticket['name']}\n"
-                status_text += f"📝 {ticket['subject']}\n"
-                status_text += f"🏷️ Status: {ticket['status']}\n"
-                status_text += f"⏰ Created: {ticket['creation'].strftime('%Y-%m-%d %H:%M')}\n\n"
-            
-            if len(tickets) > 5:
-                status_text += f"... and {len(tickets) - 5} more tickets."
-            
-            send_message(chat_id, status_text, bot_doc)
-        
-        return {"success": True, "message": "Status command handled"}
-    
-    except Exception as e:
-        frappe.log_error("Status Command Error", str(e))
-        return {"success": False, "message": str(e)}
-
-
-def handle_tickets_command(message, bot_doc):
-    """Handle /tickets command to show detailed ticket list"""
-    # Similar to status but with more detail
-    return handle_status_command(message, bot_doc)
-
-
-def handle_status_query(callback_query, bot_doc):
-    """Handle status callback queries"""
-    # Implementation for callback query handling
-    return {"success": True, "message": "Status query handled"}
-
-
-def handle_ticket_query(callback_query, bot_doc):
-    """Handle ticket callback queries"""
-    # Implementation for ticket callback query handling
-    return {"success": True, "message": "Ticket query handled"}
 
 
 def check_rate_limiting(update_data, bot_doc):
@@ -369,26 +372,6 @@ def check_rate_limiting(update_data, bot_doc):
     
     except Exception:
         return True  # Allow on error
-
-
-def send_acknowledgment(message, bot_doc):
-    """Send acknowledgment message to user"""
-    try:
-        chat_id = message.get("chat", {}).get("id")
-        ack_text = "Thank you for your message! A support ticket has been created and our team will get back to you soon."
-        
-        # Send in background to avoid blocking webhook response
-        frappe.enqueue(
-            "helpdesk.www.telegram.webhook.send_message_background",
-            chat_id=chat_id,
-            text=ack_text,
-            bot_token=bot_doc.bot_token,
-            queue="short",
-            timeout=60
-        )
-    
-    except Exception as e:
-        frappe.log_error("Acknowledgment Send Error", str(e))
 
 
 def send_message(chat_id, text, bot_doc, parse_mode=None):
@@ -412,58 +395,22 @@ def send_message(chat_id, text, bot_doc, parse_mode=None):
         logger.debug("Message queued for background sending")
     
     except Exception as e:
-        logger.error(f"Message send error: {str(e)}", exc_info=True)
+        logger.error(f"Message send error: {str(e)}")
         frappe.log_error("Message Send Error", str(e))
 
 
-def send_ticket_confirmation(message, ticket_result, bot_doc):
-    """Send ticket creation confirmation"""
+def answer_callback_query(callback_query_id, text=""):
+    """Answer callback query to remove loading state"""
     try:
-        chat_id = message.get("chat", {}).get("id")
-        ticket_id = ticket_result.get("ticket")
+        logger.debug(f"Answering callback query: {callback_query_id}")
         
-        confirmation_text = f"✅ Ticket Created!\n\n"
-        confirmation_text += f"🎫 **Ticket:** {ticket_id}\n"
-        confirmation_text += f"📝 **Subject:** {ticket_result.get('subject', 'N/A')}\n"
-        confirmation_text += f"⚡ **Priority:** {ticket_result.get('priority', 'Medium')}\n\n"
-        confirmation_text += f"Our team will review your request and respond soon.\n\n"
-        confirmation_text += f"To check status: `/status {ticket_id}`"
-        
-        send_message(chat_id, confirmation_text, bot_doc, parse_mode="Markdown")
+        # This would be implemented with the Telegram API
+        # For now, just log it
+        logger.info(f"Callback query answered: {text}")
         
     except Exception as e:
-        frappe.log_error("Confirmation Send Error", str(e))
-
-
-def send_verification_message(message, bot_doc):
-    """Send verification required message"""
-    try:
-        chat_id = message.get("chat", {}).get("id")
-        
-        verification_text = "⚠️ **Verification Required**\n\n"
-        verification_text += "To create tickets, please verify your account first.\n\n"
-        verification_text += "Use `/verify` to start the verification process."
-        
-        send_message(chat_id, verification_text, bot_doc, parse_mode="Markdown")
-        
-    except Exception as e:
-        frappe.log_error("Verification Message Send Error", str(e))
-
-
-def send_error_message(message, error_result, bot_doc):
-    """Send generic error message"""
-    try:
-        chat_id = message.get("chat", {}).get("id")
-        
-        error_text = "❌ **Unable to Process Message**\n\n"
-        error_text += "Sorry, I couldn't create a ticket from your message. "
-        error_text += "Please try again or contact support directly.\n\n"
-        error_text += "Use `/help` for available commands."
-        
-        send_message(chat_id, error_text, bot_doc, parse_mode="Markdown")
-        
-    except Exception as e:
-        frappe.log_error("Error Message Send Error", str(e))
+        logger.error(f"Callback query answer error: {str(e)}")
+        frappe.log_error("Callback Query Answer Error", str(e))
 
 
 def send_message_background(chat_id, text, bot_token, parse_mode=None):
@@ -477,7 +424,7 @@ def send_message_background(chat_id, text, bot_token, parse_mode=None):
         payload = {
             "chat_id": str(chat_id),
             "text": text,
-            "parse_mode": parse_mode or "HTML"
+            "parse_mode": parse_mode or "Markdown"
         }
         
         logger.debug(f"Telegram API URL: {url}")
@@ -495,20 +442,5 @@ def send_message_background(chat_id, text, bot_token, parse_mode=None):
             frappe.log_error("Telegram Send Message Failed", response.text)
     
     except Exception as e:
-        logger.error(f"Background message send exception: {str(e)}", exc_info=True)
-        frappe.log_error("Background Message Send Error", str(e))
-
-
-def get_help_text(bot_doc):
-    """Get help text for the bot"""
-    help_text = "🤖 Helpdesk Bot Commands:\n\n"
-    help_text += "/start - Start conversation\n"
-    help_text += "/help - Show this help message\n"
-    
-    if bot_doc.enable_status_commands:
-        help_text += "/status - Check your ticket status\n"
-        help_text += "/tickets - List your tickets\n"
-    
-    help_text += "\n💬 Just send me a message to create a support ticket!"
-    
-    return help_text 
+        logger.error(f"Background message send exception: {str(e)}")
+        frappe.log_error("Background Message Send Error", str(e)) 

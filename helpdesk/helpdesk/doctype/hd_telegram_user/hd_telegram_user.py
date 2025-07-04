@@ -170,7 +170,7 @@ def get_or_create_telegram_user(user_data):
         user_doc.language_code = user_data.get('language_code')
         user_doc.is_premium = user_data.get('is_premium', 0)
         user_doc.update_last_contact()
-        user_doc.save()
+        user_doc.save(ignore_permissions=True)
         
         return user_doc
     
@@ -187,7 +187,7 @@ def get_or_create_telegram_user(user_data):
             "is_premium": user_data.get('is_premium', 0)
         })
         
-        user_doc.insert()
+        user_doc.insert(ignore_permissions=True)
         return user_doc
 
 

@@ -1,0 +1,267 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-04 17:40:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "template_section",
+  "template_name",
+  "template_category",
+  "description",
+  "column_break_1",
+  "is_global",
+  "is_active",
+  "language",
+  "content_section",
+  "content",
+  "content_preview",
+  "column_break_2",
+  "parse_mode",
+  "disable_web_page_preview",
+  "variables_section",
+  "variables",
+  "sample_context",
+  "column_break_3",
+  "keyboard_layout",
+  "keyboard_type",
+  "settings_section",
+  "character_limit",
+  "auto_escape",
+  "column_break_4",
+  "created_by_bot",
+  "usage_count",
+  "last_used",
+  "metadata_section",
+  "tags",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "template_section",
+   "fieldtype": "Section Break",
+   "label": "Template Information"
+  },
+  {
+   "fieldname": "template_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Template Name",
+   "reqd": 1,
+   "unique": 1,
+   "description": "Unique identifier for the template"
+  },
+  {
+   "fieldname": "template_category",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Category",
+   "options": "Welcome\nHelp\nError\nSuccess\nCommand Response\nTicket\nNotification\nCustom",
+   "reqd": 1,
+   "default": "Custom"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description",
+   "reqd": 1,
+   "description": "Brief description of when to use this template"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "is_global",
+   "fieldtype": "Check",
+   "label": "Is Global",
+   "default": 1,
+   "description": "Available to all bots"
+  },
+  {
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active",
+   "default": 1,
+   "description": "Enable/disable this template"
+  },
+  {
+   "fieldname": "language",
+   "fieldtype": "Select",
+   "label": "Language",
+   "options": "en\nes\nfr\nde\nit\npt\nru\nzh\nja\nko\nar\nhi",
+   "default": "en",
+   "description": "Template language"
+  },
+  {
+   "fieldname": "content_section",
+   "fieldtype": "Section Break",
+   "label": "Template Content"
+  },
+  {
+   "fieldname": "content",
+   "fieldtype": "Long Text",
+   "label": "Template Content",
+   "reqd": 1,
+   "description": "Template content with variables in {variable_name} format"
+  },
+  {
+   "fieldname": "content_preview",
+   "fieldtype": "HTML",
+   "label": "Preview",
+   "description": "Live preview of rendered template"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "parse_mode",
+   "fieldtype": "Select",
+   "label": "Parse Mode",
+   "options": "\nHTML\nMarkdown\nMarkdownV2",
+   "description": "Telegram message formatting mode"
+  },
+  {
+   "fieldname": "disable_web_page_preview",
+   "fieldtype": "Check",
+   "label": "Disable Web Page Preview",
+   "description": "Disable link previews in Telegram"
+  },
+  {
+   "fieldname": "variables_section",
+   "fieldtype": "Section Break",
+   "label": "Variables & Context"
+  },
+  {
+   "fieldname": "variables",
+   "fieldtype": "JSON",
+   "label": "Available Variables",
+   "description": "JSON array of variable definitions with types and descriptions"
+  },
+  {
+   "fieldname": "sample_context",
+   "fieldtype": "JSON",
+   "label": "Sample Context",
+   "description": "Sample data for testing template rendering"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "keyboard_layout",
+   "fieldtype": "JSON",
+   "label": "Keyboard Layout",
+   "description": "Inline keyboard configuration for this template"
+  },
+  {
+   "fieldname": "keyboard_type",
+   "fieldtype": "Select",
+   "label": "Keyboard Type",
+   "options": "\nInline\nReply\nRemove",
+   "description": "Type of keyboard to show"
+  },
+  {
+   "fieldname": "settings_section",
+   "fieldtype": "Section Break",
+   "label": "Template Settings"
+  },
+  {
+   "fieldname": "character_limit",
+   "fieldtype": "Int",
+   "label": "Character Limit",
+   "default": 4096,
+   "description": "Maximum characters for this template"
+  },
+  {
+   "fieldname": "auto_escape",
+   "fieldtype": "Check",
+   "label": "Auto Escape",
+   "default": 1,
+   "description": "Automatically escape special characters"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "created_by_bot",
+   "fieldtype": "Link",
+   "label": "Created by Bot",
+   "options": "HD Telegram Bot",
+   "description": "Bot that created this template"
+  },
+  {
+   "fieldname": "usage_count",
+   "fieldtype": "Int",
+   "label": "Usage Count",
+   "default": 0,
+   "read_only": 1,
+   "description": "Number of times this template has been used"
+  },
+  {
+   "fieldname": "last_used",
+   "fieldtype": "Datetime",
+   "label": "Last Used",
+   "read_only": 1,
+   "description": "When this template was last used"
+  },
+  {
+   "fieldname": "metadata_section",
+   "fieldtype": "Section Break",
+   "label": "Additional Information"
+  },
+  {
+   "fieldname": "tags",
+   "fieldtype": "Data",
+   "label": "Tags",
+   "description": "Comma-separated tags for categorization"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Notes",
+   "description": "Additional notes about this template"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-04 17:40:00.000000",
+ "modified_by": "Administrator",
+ "module": "Helpdesk",
+ "name": "HD Bot Response Template",
+ "naming_rule": "By fieldname",
+ "naming_rule_fieldname": "template_name",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Helpdesk Agent",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "template_category",
+ "sort_order": "ASC",
+ "states": []
+} 

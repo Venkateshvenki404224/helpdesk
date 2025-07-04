@@ -87,3 +87,31 @@ setup_wizard_complete = "helpdesk.setup.setup_wizard.setup_complete"
 website_route_rules = [
     {"from_route": "/helpdesk/<path:app_path>", "to_route": "helpdesk"},
 ]
+
+# Fixtures
+fixtures = [
+    {
+        "doctype": "HD Bot Response Template",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "welcome_message",
+                    "help_message", 
+                    "error_unknown_command",
+                    "error_permission_denied",
+                    "error_general",
+                    "ticket_creation_start",
+                    "ticket_creation_success",
+                    "status_no_tickets",
+                    "status_ticket_list",
+                    "cancel_success",
+                    "cancel_nothing",
+                    "typing_indicator",
+                    "maintenance_mode"
+                ]
+            ]
+        ]
+    }
+]
