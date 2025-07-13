@@ -74,8 +74,8 @@ class TelegramCommandProcessor:
         """
         try:
             command_text = message_data.get("text", "").strip()
-            command_name = self.extract_command_name(command_text)
-            command_args = self.extract_command_args(command_text)
+            command_name = self.extract_command_name(command_text) #e.g /start -> start
+            command_args = self.extract_command_args(command_text) #e.g /start 123 -> 123
             
             # Get command configuration
             command_config = self.get_command_config(command_name)
@@ -324,7 +324,7 @@ class TelegramCommandProcessor:
             available_commands = self.get_available_commands(user_data)
             
             context = {
-                "user_name": user_data.get("first_name", "there"),
+                "user_name": f"{user_data.get('first_name', '')} {user_data.get('last_name', '')}".strip() or "there",
                 "bot_name": self.bot_doc.bot_name if self.bot_doc else "Support Bot",
                 "available_commands": self.format_commands_list(available_commands)
             }

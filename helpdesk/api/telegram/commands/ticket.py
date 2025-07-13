@@ -120,10 +120,7 @@ def get_or_create_telegram_user(user_data: Dict[str, Any]):
     """Get or create telegram user"""
     try:
         from helpdesk.helpdesk.doctype.hd_telegram_user.hd_telegram_user import get_or_create_telegram_user
-        return get_or_create_telegram_user(
-            telegram_user_id=user_data.get("id"),
-            user_data=user_data
-        )
+        return get_or_create_telegram_user(user_data)
     except Exception as e:
         frappe.log_error(f"Failed to get/create telegram user: {str(e)}")
         return None
