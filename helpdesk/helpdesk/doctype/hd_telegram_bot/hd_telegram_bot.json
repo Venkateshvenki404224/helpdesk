@@ -38,6 +38,7 @@
   "advanced_settings_section",
   "auto_create_users",
   "enable_conversation_tracking",
+  "auto_create_tickets",
   "conversation_timeout",
   "column_break_advanced",
   "enable_file_uploads",
@@ -257,6 +258,13 @@
    "fieldtype": "Check",
    "label": "Enable Conversation Tracking",
    "description": "Track conversation context and state"
+  },
+  {
+   "default": "1",
+   "fieldname": "auto_create_tickets",
+   "fieldtype": "Check",
+   "label": "Auto Create Tickets",
+   "description": "Automatically create tickets from non-command messages"
   },
   {
    "default": "1800",
